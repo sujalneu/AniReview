@@ -3,11 +3,14 @@ import express from "express"
 import cors from "cors";
 import dotenv from "dotenv"
 import connectDB from "./db/db.js";
+import authRoutes from "./routes/auth.js"
 
 
 dotenv.config({
     path: './.env'
 })
+
+const PORT = process.env.PORT || 5000
 
 const app = express();
 
@@ -15,16 +18,24 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get("/test", (req, res) => {
-    res.send("TEST API is running....")
-})
+app.use("/api/users", authRoutes);
 
-const PORT = process.env.PORT || 5000
+connectDB();
+
 app.listen(PORT, () => {
-    console.log(`Server is running on PORT: ${PORT}`);
+    console.log(`Server started at port ${PORT}`);
 });
 
-connectDB()
+
+
+// app.get("/test", (req, res) => {
+//     res.send("TEST API is running....")
+// })
+// app.listen(PORT, () => {
+//     console.log(`Server is running on PORT: ${PORT}`);
+// });
+
+// connectDB()
 
 
 
