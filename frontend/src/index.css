@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+/* Hide scrollbar for all browsers */
+.scrollbar-none::-webkit-scrollbar {
+	display: none;
+}
+
+.scrollbar-none {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.prose-markdown strong {
+	font-weight: 700;
+	color: #fff;
+}
+
+.prose-markdown em {
+	font-style: italic;
+}
+
+.prose-markdown ul {
+	list-style-type: disc;
+	padding-left: 1.25rem;
+	margin: 0.5rem 0;
+}
+
+.prose-markdown ol {
+	list-style-type: decimal;
+	padding-left: 1.25rem;
+	margin: 0.5rem 0;
+}
+
+.prose-markdown li {
+	margin-bottom: 0.25rem;
+}
+
+@keyframes rainbow-text {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+.animate-rainbow-text {
+	animation: rainbow-text 4s linear infinite;
+	background-size: 200% auto;
+	color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+}
