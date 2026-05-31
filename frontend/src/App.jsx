@@ -13,7 +13,11 @@ import Navbar from "./components/Navbar";
 import UpcomingAnimePage from "./pages/UpcomingAnimePage";
 import TopRated from "./pages/TopRated";
 import AdminDashboard from "./pages/AdminDashboard";
-
+import FirstPage from "./pages/firstPage";
+import ReviewsPage from "./pages/ReviewsPage";
+import CommunityPage from "./pages/CommunityPage";
+import PointsNotification from "./components/PointsNotification";
+import ChatPage from "./pages/ChatPage";
 // Layout wrapper
 const Layout = ({ children }) => (
 	<>
@@ -28,6 +32,7 @@ const PlaceholderPage = ({ text }) => (
 );
 
 const App = () => {
+
 	useEffect(() => {
 		async function getData() {
 			try {
@@ -43,8 +48,8 @@ const App = () => {
 	return (
 		<BrowserRouter>
 			<Routes>
-				{/* Root redirect to auth */}
-				<Route path="/" element={<Navigate to="/auth" />} />
+				{/* Landing page (first page when site opens) */}
+				<Route path="/" element={<FirstPage />} />
 
 				{/* Authentication page */}
 				<Route path="/auth" element={<Authentication />} />
@@ -68,6 +73,28 @@ const App = () => {
 						<ProtectedRoute>
 							<Layout>
 								<ProfilePage />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path="/profile/:username"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<ProfilePage />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
+
+				{/* Community page */}
+				<Route
+					path="/community"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<CommunityPage />
 							</Layout>
 						</ProtectedRoute>
 					}
@@ -132,8 +159,26 @@ const App = () => {
 				/>
 				{/* Review pages */}
 				<Route
-					path="/reviews/:reviewId"
-					element={<PlaceholderPage text="Review Page" />}
+					path="/reviews"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<ReviewsPage />
+							</Layout>
+						</ProtectedRoute>
+					}
+				/>
+
+				{/* Chat system */}
+				<Route
+					path="/chat"
+					element={
+						<ProtectedRoute>
+							<Layout>
+								<ChatPage />
+							</Layout>
+						</ProtectedRoute>
+					}
 				/>
 
 				{/* Catch-all 404 */}
@@ -145,6 +190,7 @@ const App = () => {
 				{/* Admin Dashboard page */}
 				<Route path="/admin" element={<AdminDashboard />} />
 			</Routes>
+			<PointsNotification />
 		</BrowserRouter>
 	);
 };

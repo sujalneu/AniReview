@@ -58,8 +58,8 @@ export default function UpcomingPage() {
 									{anime.title}
 								</h3>
 								<div className="mt-2">
-									<p className="text-yellow-400 text-sm">
-										⭐ {anime.score || "N/A"}
+									<p className="text-yellow-400 text-sm flex items-center">
+										<i className="ri-star-fill text-amber-400 mr-1"></i> {anime.score || "N/A"}
 									</p>
 									<p className="text-zinc-400 text-xs mt-1 line-clamp-2">
 										{anime.aired?.string || "TBA"}

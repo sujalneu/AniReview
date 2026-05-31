@@ -9,10 +9,14 @@ export default function ReviewCard({ review }) {
 			<div className="p-5 space-y-2">
 				<div className="flex justify-between items-center">
 					<h3 className="font-semibold">{review.title}</h3>
-					<span className="text-yellow-400">⭐ {review.rating}</span>
+					<span className="text-yellow-400 flex items-center">
+						<i className="ri-star-fill text-amber-400 mr-1"></i> {review.rating}
+					</span>
 				</div>
 				<p className="text-zinc-400 text-sm">{review.review}</p>
-				<div className="text-xs text-zinc-500 pt-2">👤 {review.user}</div>
+				<div className="text-xs text-zinc-500 pt-2 flex items-center">
+					<i className="ri-user-line mr-1"></i> {review.user}
+				</div>
 			</div>
 		</div>
 	);

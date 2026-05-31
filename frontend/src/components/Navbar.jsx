@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import NotificationBell from "./NotificationBell";
 
 export default function Navbar() {
 	const [genreDropdownOpen, setGenreDropdownOpen] = useState(false);
@@ -37,15 +38,29 @@ export default function Navbar() {
 
 	// Update user info from localStorage
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		const isGuest = localStorage.getItem("isGuest") === "true";
-		const avatar = token ? "https://wallpapercave.com/uwp/uwp4985551.jpeg" : "";
+		const syncUser = () => {
+			const token = localStorage.getItem("token");
+			const isGuest = localStorage.getItem("isGuest") === "true";
+			const avatar =
+				localStorage.getItem("avatar") ||
+				(token ? "https://wallpapercave.com/uwp/uwp4985551.jpeg" : "");
 
-		setUser({
-			loggedIn: !!token,
-			isGuest,
-			avatar,
-		});
+			setUser({
+				loggedIn: !!token,
+				isGuest,
+				avatar,
+			});
+		};
+
+		syncUser();
+
+		window.addEventListener("avatarUpdate", syncUser);
+		window.addEventListener("storage", syncUser);
+
+		return () => {
+			window.removeEventListener("avatarUpdate", syncUser);
+			window.removeEventListener("storage", syncUser);
+		};
 	}, []);
 
 	// Close dropdown when clicking outside
@@ -71,6 +86,7 @@ export default function Navbar() {
 
 	function handleLogout() {
 		localStorage.removeItem("token");
+		localStorage.removeItem("userId");
 		localStorage.removeItem("username");
 		localStorage.setItem("isGuest", "false");
 		navigate("/auth");
@@ -110,7 +126,10 @@ export default function Navbar() {
 					>
 						Home
 					</button>
-					<button className="hover:text-white cursor-pointer transition">
+					<button
+						onClick={() => navigate("/reviews")}
+						className="hover:text-white cursor-pointer transition"
+					>
 						Reviews
 					</button>
 
@@ -140,7 +159,10 @@ export default function Navbar() {
 						)}
 					</div>
 
-					<button className="hover:text-white cursor-pointer transition">
+					<button
+						onClick={() => navigate("/community")}
+						className="hover:text-white cursor-pointer transition"
+					>
 						Community
 					</button>
 					<button
@@ -149,12 +171,21 @@ export default function Navbar() {
 					>
 						Top Rated
 					</button>
+					{user.loggedIn && !user.isGuest && (
+						<button
+							onClick={() => navigate("/chat")}
+							className="hover:text-white cursor-pointer transition"
+						>
+							Chat
+						</button>
+					)}
 				</div>
 
 				{/* Profile / Guest */}
-				<div className="flex items-center gap-4">
+				<div className="flex items-center gap-3">
 					{user.loggedIn && !user.isGuest ? (
 						<>
+							<NotificationBell />
 							<button
 								onClick={handleProfileClick}
 								className="cursor-pointer w-10 h-10 rounded-full border border-zinc-700 overflow-hidden hover:border-white transition"
